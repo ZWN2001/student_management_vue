@@ -19,8 +19,8 @@
           <div >第{{i}}节</div>
         </td>
 
-        <td v-for="j in 7"  @click="showCourse((i-1)*5+(j-1))">
-          <CourseDetail :course="courses[(i-1)*5+(j-1)]" />
+        <td v-for="j in 7"  @click="showCourse((i-1)*7+(j-1))">
+          <CourseDetail :course="courses[(i-1)*7+(j-1)]" />
         </td>
       </tr>
       </tbody>

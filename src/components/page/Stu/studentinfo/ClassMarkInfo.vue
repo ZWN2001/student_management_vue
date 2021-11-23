@@ -57,6 +57,7 @@ export default {
             query: {
                 sid: '',
                 cid:'',
+                tid:'',
                 studentName: '',
                 cname: '',
                 mark:'',
@@ -114,6 +115,7 @@ export default {
 .handle-input {
     width: 140px;
     display: inline-block;
+    margin-right: 14px;
 }
 .table {
     width: 100%;

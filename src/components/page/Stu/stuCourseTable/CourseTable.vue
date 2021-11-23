@@ -7,7 +7,7 @@
 
 <script>
 import Schedule from './Schedule.vue'
-import { get_all_selected_course} from '../../../../api';
+import { get_all_selected_course} from '@/api';
 export default {
     name: 'CourseTable',
     data() {
@@ -27,9 +27,9 @@ export default {
                 {
                     id: 1,
                     cid: "",
-                    cname: "java",
-                    teacherName: "木鱼",
-                    credit:'3'
+                    cname: "",
+                    teacherName: "",
+                    credit:''
                 },
                 {
                     id: 2,
@@ -262,13 +262,6 @@ export default {
                     teacherName: "",
                     credit:''
                 },
-                {
-                    id: 35,
-                    cid: "",
-                    cname: "",
-                    teacherName: "",
-                    credit:''
-                },
             ],
         }
     },
@@ -293,7 +286,9 @@ export default {
                     this.courses[index].credit = '';
                 });
                 this.tableData.forEach((item,index) =>{
-                    var id = (item['courseSection']-1)*7+item['courseDay'];
+                    console.log(item['courseSection']);
+                    var id = (item['courseSection']-1)*7+item['courseDay']-1;
+                    console.log(id);
                     this.courses[id].cid = item['cid'];
                     this.courses[id].cname = item['cname'];
                     this.courses[id].teacherName = item['teacherName'];
