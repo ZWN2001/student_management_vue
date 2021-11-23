@@ -190,7 +190,4 @@ export default {
     color: #fff;
     cursor: pointer;
 }
-.el-dropdown-menu__item {
-    text-align: center;
-}
 </style>

@@ -46,7 +46,7 @@ export default new Router({
                 },
                 {
                     path: '/TeaCourseManage',
-                    component: () => import(/* webpackChunkName: "table" */ '../components/page/TeaCourseManage.vue'),
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/Tea/TeaCourseManage.vue'),
                     meta: { title: '选课管理' }
                 },
                 {

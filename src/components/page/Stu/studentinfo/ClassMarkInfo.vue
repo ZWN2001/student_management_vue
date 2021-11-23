@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { fetch_grade } from '../../../../api';
+import { fetch_grade } from '@/api';
 export default {
     name: 'ClassMarkInfo',
     data() {
@@ -97,44 +97,6 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        // // 编辑操作
-        // handleEdit(index, row) {
-        //     if (this.name !== 'admin'){
-        //         this.$message.error('无权修改');
-        //     }else {
-        //         this.idx = index;
-        //         this.form = row;
-        //         this.origin['sid'] = row['sid'];
-        //         this.origin['studentName'] = row['studentName'];
-        //         this.origin['cname'] = row['cname'];
-        //         this.origin['teacherName'] = row['teacherName'];
-        //         this.origin['grade'] = row['grade'];
-        //         this.editVisible = true;
-        //     }
-        // },
-        // // 保存编辑
-        // saveEdit() {
-        //     this.editVisible = false;
-        //     this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-        //
-        //     this.$set(this.tableData, this.idx, this.form);
-        //
-        //     let data = {};
-        //     data['sid'] = this.form['sid'];
-        //     data['cname']= this.form['cname'];
-        //     data['grade'] = this.form['grade']
-        //     data['pageIndex'] = this.query.pageIndex
-        //     data['pageSize'] = this.query.pageSize
-        //     console.log(data)
-        //     if (this.form['grade'] !== this.origin['grade']) {
-        //         update_grade(data).then(res=>{
-        //             console.log("update_grade",res);
-        //             this.tableData = res.data.data;
-        //             this.pageTotal = res.data.pagetotal || 10;
-        //         })
-        //     }
-        //
-        // },
         // 分页导航
         handlePageChange(val) {
             this.$set(this.query, 'pageIndex', val);
@@ -149,10 +111,6 @@ export default {
     margin-bottom: 20px;
 }
 
-/*.handle-select {*/
-/*    width: 120px;*/
-/*}*/
-
 .handle-input {
     width: 140px;
     display: inline-block;
@@ -160,17 +118,5 @@ export default {
 .table {
     width: 100%;
     font-size: 14px;
-}
-.red {
-    color: #ff0000;
-}
-.mr10 {
-    margin-right: 10px;
-}
-.table-td-thumb {
-    display: block;
-    margin: auto;
-    width: 40px;
-    height: 40px;
 }
 </style>

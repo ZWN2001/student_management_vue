@@ -109,11 +109,6 @@
                 this.read = item.concat(this.read);
             }
         },
-        computed: {
-            unreadNum(){
-                return this.unread.length;
-            }
-        }
     }
 
 </script>
