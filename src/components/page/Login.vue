@@ -57,11 +57,13 @@ export default {
                             localStorage.setItem('identity', '0');
 
                             localStorage.setItem('sid', this.param.id);
+                            localStorage.setItem('isLogin','0');
                             this.$router.push('/stuDashboard');
                         }else if(res.data === 1){
                             this.$message.success('老师您好');
                             localStorage.setItem('identity', '1');
                             localStorage.setItem('tid', this.param.id);
+                            localStorage.setItem('isLogin','0');
                             this.$router.push('/teaDashboard');
                         }else {
                             console.log('账号密码错误');

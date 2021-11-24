@@ -8,6 +8,7 @@
                         <div class="user-info-cont">
                             <div class="user-info-name">{{myInfo.name}}</div>
                             <div style='padding-top: 12px'>{{role}}</div>
+                            <el-button style='padding-top: 12px' type="text" icon="el-icon-edit" @click="handleChangePassword">修改密码</el-button>
                         </div>
                     </div>
                     <div class="user-info-list">
@@ -117,12 +118,30 @@
                 <el-button type="primary" @click="saveEdit">确 定</el-button>
             </span>
         </el-dialog>
+
+        <el-dialog title="修改密码" :visible.sync="passwordVisible" width="40%">
+            <el-form ref="form" :model="form" label-width="70px">
+                <el-form-item label="原密码">
+                    <el-input type='password' v-model="passwordForm.oldPassword"></el-input>
+                </el-form-item>
+                <el-form-item label="新密码">
+                    <el-input type='password' v-model="passwordForm.newPassword"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码">
+                    <el-input type='password' v-model="passwordForm.confirmPwd"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="passwordVisible = false">取 消</el-button>
+                <el-button type="primary" @click="savePassword">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
 <script>
 import bus from '../../common/bus';
-import {  fetch_student, update_student_info } from '../../../api';
+import { change_password, fetch_student, update_student_info } from '../../../api';
 export default {
     name: 'dashboard',
     data() {
@@ -179,10 +198,15 @@ export default {
                 sid:'',
                 mail:'',
                 phone:'',},
+            passwordForm:{
+                role:'0',
+                id:localStorage.getItem('sid'),
+                oldPassword:"",
+                newPassword:'',
+                confirmPwd:'',
+            },
+            passwordVisible:false,
         };
-    },
-    components: {
-
     },
     computed: {
         role() {
@@ -192,10 +216,6 @@ export default {
     created() {
         this.getInfoData();
     },
-    deactivated() {
-        window.removeEventListener('resize', this.renderChart);
-        bus.$off('collapse', this.handleBus);
-    },
     methods: {
         getInfoData() {
             fetch_student(this.query).then(res => {
@@ -203,7 +223,6 @@ export default {
                 this.myInfo = res.data.data[0];
                 localStorage.setItem('clazz',this.myInfo.clazz);
                 localStorage.setItem('studentName',this.myInfo.name);
-                console.log(localStorage.getItem('studentName'));
             });
 
         },
@@ -247,6 +266,34 @@ export default {
                 });
             }
         },
+
+        handleChangePassword() {
+            this.passwordVisible = true;
+        },
+
+        savePassword(){
+            if (this.passwordForm.newPassword === this.passwordForm.oldPassword){
+                this.$message.warning('您并没有改变密码');
+            } else if (this.passwordForm.newPassword.length<4||this.passwordForm.newPassword.length>12){
+                this.$message.warning('请输入4位以上12位以下的密码');
+            }else if (this.passwordForm.newPassword !== this.passwordForm.confirmPwd){
+                this.$message.warning('两次新密码不一致！');
+            }else {
+                change_password(this.passwordForm).then(res=>{
+                    if (res.data === -2){
+                        this.$message.error('原密码不正确');
+                    }else if (res.data === 0){
+                        this.$message.success('修改成功');
+                        this.passwordForm.oldPassword = '';
+                        this.passwordForm.newPassword = '';
+                        this.passwordForm.confirmPwd = '';
+                        this.passwordVisible = false;
+                    }
+                });
+            }
+
+        }
+
     }
 };
 </script>
@@ -278,7 +325,7 @@ export default {
     border-radius: 50%;
 }
 
-.user-info-cont {
+.user-info-cont{
     padding-left: 50px;
     padding-top: 14px;
     flex: 1;

@@ -4,6 +4,10 @@ export const login = query => {
     console.log("this.query:",query);
     return post("/user/login",query);
 };
+export const change_password = query => {
+    console.log("this.query:",query);
+    return post("/user/changePassword",query);
+};
 export const fetch_student = query => {
     console.log("this.query:",query);
     return post("/studentInfo/searchInfo",query);
