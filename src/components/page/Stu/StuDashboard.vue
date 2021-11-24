@@ -13,7 +13,7 @@
                     </div>
                     <div class="user-info-list">
                         上次登录时间：
-                        <span>2021-11-01</span>
+                        <span>{{ lastLoginTime }}</span>
                     </div>
                     <div class="user-info-list">
                         上次登录地点：
@@ -141,7 +141,7 @@
 
 <script>
 import bus from '../../common/bus';
-import { change_password, fetch_student, update_student_info } from '../../../api';
+import { change_password, fetch_log, fetch_student, update_student_info } from '../../../api';
 export default {
     name: 'dashboard',
     data() {
@@ -206,6 +206,8 @@ export default {
                 confirmPwd:'',
             },
             passwordVisible:false,
+            lastLoginTimes:[],
+            lastLoginTime:'',
         };
     },
     computed: {
@@ -223,6 +225,13 @@ export default {
                 this.myInfo = res.data.data[0];
                 localStorage.setItem('clazz',this.myInfo.clazz);
                 localStorage.setItem('studentName',this.myInfo.name);
+            });
+            fetch_log(localStorage.getItem('sid')).then(res=>{
+                console.log(res.data);
+                this.lastLoginTimes = res.data;
+                this.lastLoginTime = this.lastLoginTimes[this.lastLoginTimes.length-2];
+                console.log(res);
+                console.log(1);
             });
 
         },

@@ -12,7 +12,7 @@
                     </div>
                     <div class="user-info-list">
                         上次登录时间：
-                        <span>2021-11-01</span>
+                        <span>{{ lastLoginTime }}</span>
                     </div>
                     <div class="user-info-list">
                         上次登录地点：
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import {  fetch_teacher_by_id } from '@/api';
+import { fetch_log, fetch_teacher_by_id } from '@/api';
 export default {
     name: 'dashboard',
     data() {
@@ -93,6 +93,8 @@ export default {
             editVisible: false,
             origin: {},
             form: {},
+            lastLoginTimes:[],
+            lastLoginTime:'',
         };
     },
     components: {
@@ -115,8 +117,14 @@ export default {
                 localStorage.setItem("teacherName",this.myInfo.name);
                 console.log(localStorage.getItem('teacherName'));
             });
-
+            fetch_log(localStorage.getItem('tid')).then(res=>{
+                this.lastLoginTimes = res.data;
+                this.lastLoginTime = this.lastLoginTimes[this.lastLoginTimes.length-1];
+                console.log(res);
+                console.log(this.lastLoginTimes[this.lastLoginTimes.length-2]);
+            });
         },
+
     }
 };
 </script>

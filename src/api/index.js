@@ -1,4 +1,8 @@
 import { post } from '@/utils/request';
+export const fetch_log = query => {
+    console.log("this.query:",query);
+    return post("/log/selectLog",query);
+};
 
 export const login = query => {
     console.log("this.query:",query);
