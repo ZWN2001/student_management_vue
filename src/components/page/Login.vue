@@ -21,13 +21,29 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm()">登录</el-button>
                 </div>
+                <el-button style='padding-top: 12px' type="text" icon="el-icon-edit" @click="handleReSetPassword">重置密码</el-button>
             </el-form>
         </div>
+
+        <el-dialog title="重置密码（仅支持学生，老师请联系管理员）" :visible.sync="passwordVisible" width="40%">
+            <el-form ref="form" :model="form" label-width="70px">
+                <el-form-item label="学号">
+                    <el-input  v-model="form.sid"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱">
+                    <el-input type='mail' v-model="form.mail"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="passwordVisible = false">取 消</el-button>
+                <el-button type="primary" @click="reSetPassword">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
 <script>
-import { login } from '@/api';
+import { login, reset_password } from '@/api';
 export default {
     data() {
         return {
@@ -39,8 +55,10 @@ export default {
                 id: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
                 password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
             },
+            form:{
 
-
+            },
+            passwordVisible:false,
         };
     },
 
@@ -49,7 +67,6 @@ export default {
             this.$refs.login.validate(valid => {
                 console.log();
                 if (valid) {
-
                     login(this.param).then(res =>{
                         console.log(res);
                         if (res.data === 0){
@@ -70,7 +87,6 @@ export default {
                             this.$message.error('登录失败')
                         }
                     });
-
                 } else {
                     this.$message.error('请输入账号和密码');
                     console.log('error submit!!');
@@ -78,6 +94,31 @@ export default {
                 }
             });
         },
+
+        handleReSetPassword(){
+          this.passwordVisible = true;
+        },
+
+        reSetPassword(){
+            var emailReg = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/;
+            if (this.form.sid ===''||this.form.mail ===''){
+                this.$message.warning('信息不能有空');
+            } else if (!emailReg.test(this.form.mail)) {
+                this.$message.error("请输入合法邮箱");
+            }else {
+                reset_password(this.form).then(res=>{
+                    if (res.data === -1){
+                        this.$message.error("用户不存在！");
+                    }else if (res.data === -2){
+                        this.$message.error("邮箱或学号错误");
+                    }else if (res.data === 0){
+                        this.$message.success('重置邮件已发送到您的邮箱，请及时查收')
+                        this.passwordVisible = false;
+                    }
+                });
+            }
+
+        }
     },
 };
 </script>

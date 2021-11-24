@@ -18,7 +18,11 @@ router.beforeEach((to, from, next) => {
     const isLogin = localStorage.getItem('isLogin');
     if (isLogin !=='0' && to.path !== '/login') {
         next('/login');
-    } else {
+    }else if (localStorage.getItem("role") === '0'){//学生
+
+    }else if (localStorage.getItem("role") === '1'){
+
+    }   else {
        next();
     }
 });
