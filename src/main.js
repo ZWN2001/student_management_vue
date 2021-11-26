@@ -19,9 +19,17 @@ router.beforeEach((to, from, next) => {
     if (isLogin !=='0' && to.path !== '/login') {
         next('/login');
     }else if (localStorage.getItem("role") === '0'){//学生
-
+        if (to.path ==='/TeaDashboard'||to.path ==='/TeaClassMarkInfo'||to.path ==='/TeaCourseInfo'||to.path ==='/TeaCourseManage'){
+            next('/403');
+        }else {
+            next();
+        }
     }else if (localStorage.getItem("role") === '1'){
-
+        if (to.path ==='/StuDashboard'||to.path ==='/ClassMarkInfo'||to.path ==='/ClassInfo'||to.path ==='/StuCourseManage'||to.path ==='/stuCourseTable'){
+            next('/403');
+        }else {
+            next();
+        }
     }   else {
        next();
     }
