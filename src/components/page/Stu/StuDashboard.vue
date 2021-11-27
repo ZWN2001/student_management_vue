@@ -2,7 +2,7 @@
     <div>
         <el-row :gutter="20">
             <el-col :span="8">
-                <el-card shadow="hover" class="mgb20" style="height:252px;">
+                <el-card shadow="hover" class="mgb20" style="height:302px;">
                     <div class="user-info">
                         <img src='../../../assets/img/img.jpg' class="user-avator" alt />
                         <div class="user-info-cont">
@@ -19,11 +19,14 @@
                         上次登录地点：
                         <span>济南</span>
                     </div>
+                    <div class='user-info-list'>
+                        <el-button style='padding-top: 12px' type="text" @click="handleHistory">查看登录历史</el-button>
+                    </div>
                 </el-card>
                 <el-card shadow="hover" style="height:403px;">
                     <div slot="header" class="clearfix">
                         <span>待办事项</span>
-                        <el-button style="float: right; padding: 3px" type="text">添加</el-button>
+                        <el-button style="float: right; padding: 3px; margin-right: 22px" type="text">添加</el-button>
                     </div>
                     <el-table :show-header="false" :data="todoList" style="width:100%;">
                         <el-table-column width="40">
@@ -56,31 +59,31 @@
                         <el-button type="text"  icon="el-icon-edit" style='float: right' @click="handleEdit()">编辑</el-button>
                     </div>
                     <el-table-column>
-                        <div class="infoText">姓名:<span style='margin-left: 360px'>{{myInfo.name}}</span></div>
+                        <div class="infoText">姓名:<span style='margin-left: 260px'>{{myInfo.name}}</span></div>
                     </el-table-column>
                     <el-divider></el-divider>
                     <el-table-column>
-                        <div class="infoText">学号:<span style='margin-left: 360px'>{{myInfo.sid}}</span></div>
+                        <div class="infoText">学号:<span style='margin-left: 260px'>{{myInfo.sid}}</span></div>
                     </el-table-column>
                     <el-divider></el-divider>
                     <el-table-column>
-                        <div class="infoText">班级:<span style='margin-left: 360px'>{{myInfo.clazz}}班</span></div>
+                        <div class="infoText">班级:<span style='margin-left: 260px'>{{myInfo.clazz}}班</span></div>
                     </el-table-column>
                     <el-divider></el-divider>
                     <el-table-column>
-                        <div class="infoText">邮箱:<span style='margin-left: 360px'>{{myInfo.mail}}</span></div>
+                        <div class="infoText">邮箱:<span style='margin-left: 260px'>{{myInfo.mail}}</span></div>
                     </el-table-column>
                     <el-divider></el-divider>
                     <el-table-column>
-                        <div class="infoText">电话:<span style='margin-left: 360px'>{{myInfo.phone}}</span></div>
+                        <div class="infoText">电话:<span style='margin-left: 260px'>{{myInfo.phone}}</span></div>
                     </el-table-column>
                     <el-divider></el-divider>
                     <el-table-column>
-                        <div class="infoText">住址:<span style='margin-left: 360px'>{{myInfo.address}}</span></div>
+                        <div class="infoText">住址:<span style='margin-left: 260px'>{{myInfo.address}}</span></div>
                     </el-table-column>
                     <el-divider></el-divider>
                     <el-table-column>
-                        <div class="infoText">介绍:<span style='margin-left: 360px'>{{myInfo.other}}</span></div>
+                        <div class="infoText">介绍:<span style='margin-left: 260px'>{{myInfo.other}}</span></div>
                     </el-table-column>
 
 
@@ -136,11 +139,24 @@
                 <el-button type="primary" @click="savePassword">确 定</el-button>
             </span>
         </el-dialog>
+
+        <el-dialog title='登录历史(仅显示近七次）' :visible.sync='historyVisible' width="30%">
+            <el-table
+                :data="lastLoginTimes"
+                border
+                class="table"
+                ref="multipleTable"
+                header-cell-class-name="table-header"
+            >
+                <el-table-column prop='id' label="序号" ></el-table-column>
+                <el-table-column prop='lastLoginTime' label="登录时间" ></el-table-column>
+
+            </el-table>
+        </el-dialog>
     </div>
 </template>
 
 <script>
-import bus from '../../common/bus';
 import { change_password, fetch_log, fetch_student, update_student_info } from '../../../api';
 export default {
     name: 'dashboard',
@@ -189,6 +205,7 @@ export default {
                 phone:'',
             },
             editVisible: false,
+            historyVisible:false,
             origin: {},
             form: {
                 address: '',
@@ -229,9 +246,8 @@ export default {
             fetch_log(localStorage.getItem('sid')).then(res=>{
                 console.log(res.data);
                 this.lastLoginTimes = res.data;
-                this.lastLoginTime = this.lastLoginTimes[this.lastLoginTimes.length-2];
+                this.lastLoginTime = this.lastLoginTimes[this.lastLoginTimes.length-1].lastLoginTime;
                 console.log(res);
-                console.log(1);
             });
 
         },
@@ -262,7 +278,7 @@ export default {
             if (this.form['phone'] !== this.origin['phone']) data['phone'] = this.form['phone'];
             data['pageIndex']= this.query.pageIndex;
             data['pageSize'] = this.query.pageSize;
-            var emailReg = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/;
+            const emailReg = /^\w{3,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$/;
             if (!emailReg.test(this.form.mail)) {
                this.$message.error("请输入合法邮箱");
                this.getInfoData();
@@ -301,8 +317,11 @@ export default {
                 });
             }
 
-        }
+        },
 
+        handleHistory(){
+            this.historyVisible = true;
+        }
     }
 };
 </script>

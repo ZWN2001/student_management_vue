@@ -7,9 +7,9 @@
         </div>
         <div class="container">
             <div class="handle-box">
-                <el-input v-model="query.cid" placeholder="课程id" class="handle-input mr10"></el-input>
-                <el-input v-model="query.credit" placeholder="学分" class="handle-input mr10"></el-input>
-                <el-select v-model="query.courseDay" placeholder="上课星期" class="handle-select mr10">
+                <el-input v-model="query.cid" placeholder="课程id" class="handle-input mr10" style='margin-right: 20px'></el-input>
+                <el-input v-model="query.credit" placeholder="学分" class="handle-input mr10" style='margin-right: 20px'></el-input>
+                <el-select v-model="query.courseDay" placeholder="上课星期" class="handle-select mr10" style='margin-right: 20px'>
                     <el-option key="" label="星期一" value="1"></el-option>
                     <el-option key="" label="星期二" value="2"></el-option>
                     <el-option key="" label="星期三" value="3"></el-option>
@@ -19,7 +19,7 @@
                     <el-option key="" label="星期日" value="7"></el-option>
                     <el-option key="" label="未选择星期" value=""></el-option>
                 </el-select>
-                <el-select v-model="query.courseSection" placeholder="节次" class="handle-select mr10">
+                <el-select v-model="query.courseSection" placeholder="节次" class="handle-select mr10" style='margin-right: 20px'>
                     <el-option key="1" label="第一节" value="1"></el-option>
                     <el-option key="2" label="第二节" value="2"></el-option>
                     <el-option key="3" label="第三节" value="3"></el-option>

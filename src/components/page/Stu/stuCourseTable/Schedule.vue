@@ -28,17 +28,21 @@
 
         <el-dialog title="课程信息"  :visible.sync="infoVisible" class='card'  width="30%">
             <el-form   label-width="100px">
-                <el-form-item label="课程ID">
-                    <el-input v-model="course.cid" :disabled='true'></el-input>
+                <el-form-item label="课程ID: ">
+                    <span>{{course.cid}}</span>
+<!--                    <el-input v-model="course.cid" :disabled='true'></el-input>-->
                 </el-form-item>
-                <el-form-item label="课程名">
-                    <el-input v-model="course.cname" :disabled='true'></el-input>
+                <el-form-item label="课程名: ">
+                    <span>{{course.cname}}</span>
+<!--                    <el-input v-model="course.cname" :disabled='true'></el-input>-->
                 </el-form-item>
-                <el-form-item label="授课教师">
-                    <el-input v-model="course.teacherName" :disabled='true'></el-input>
+                <el-form-item label="授课教师: ">
+                    <span>{{course.teacherName}}</span>
+<!--                    <el-input v-model="course.teacherName" :disabled='true'></el-input>-->
                 </el-form-item>
-                <el-form-item label="学分">
-                    <el-input v-model="course.credit" :disabled='true'></el-input>
+                <el-form-item label="学分: ">
+                    <span>{{course.credit}}</span>
+<!--                    <el-input v-model="course.credit" :disabled='true'></el-input>-->
                 </el-form-item>
             </el-form>
         </el-dialog>

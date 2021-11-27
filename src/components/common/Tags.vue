@@ -23,8 +23,9 @@
 </template>
 
 <script>
-    import bus from './bus';
-    export default {
+import bus from './bus';
+
+export default {
         data() {
             return {
                 tagsList: []
@@ -47,14 +48,18 @@
             // 关闭全部标签
             closeAll(){
                 this.tagsList = [];
-                this.$router.push('/dashboard');
+                if (localStorage.getItem('identity') === '0'){
+                    this.$router.push('/StuDashboard');
+                }else {
+                    this.$router.push('/TeaDashboard');
+                }
+
             },
             // 关闭其他标签
             closeOther(){
-                const curItem = this.tagsList.filter(item => {
+                this.tagsList = this.tagsList.filter(item => {
                     return item.path === this.$route.fullPath;
-                })
-                this.tagsList = curItem;
+                });
             },
             // 设置标签
             setTags(route){

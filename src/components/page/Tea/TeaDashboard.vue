@@ -2,7 +2,7 @@
     <div>
         <el-row :gutter="20">
             <el-col :span="8">
-                <el-card shadow="hover" class="mgb20" style="height:252px;">
+                <el-card shadow="hover" class="mgb20" style="height:302px;">
                     <div class="user-info">
                         <img src='../../../assets/img/img.jpg' class="user-avator" alt />
                         <div class="user-info-cont">
@@ -17,6 +17,9 @@
                     <div class="user-info-list">
                         上次登录地点：
                         <span>济南</span>
+                    </div>
+                    <div class='user-info-list'>
+                        <el-button style='padding-top: 12px' type="text" @click="handleHistory">查看登录历史</el-button>
                     </div>
                 </el-card>
 
@@ -49,6 +52,20 @@
                 </el-table>
             </el-card>
         </el-row>
+
+        <el-dialog title='登录历史(仅显示近七次）' :visible.sync='historyVisible' width="30%">
+            <el-table
+                :data="lastLoginTimes"
+                border
+                class="table"
+                ref="multipleTable"
+                header-cell-class-name="table-header"
+            >
+                <el-table-column prop='id' label="序号" ></el-table-column>
+                <el-table-column prop='lastLoginTime' label="登录时间" ></el-table-column>
+
+            </el-table>
+        </el-dialog>
 
     </div>
 </template>
@@ -95,6 +112,7 @@ export default {
             form: {},
             lastLoginTimes:[],
             lastLoginTime:'',
+            historyVisible: false,
         };
     },
     components: {
@@ -119,11 +137,12 @@ export default {
             });
             fetch_log(localStorage.getItem('tid')).then(res=>{
                 this.lastLoginTimes = res.data;
-                this.lastLoginTime = this.lastLoginTimes[this.lastLoginTimes.length-1];
-                console.log(res);
-                console.log(this.lastLoginTimes[this.lastLoginTimes.length-2]);
+                this.lastLoginTime = this.lastLoginTimes[this.lastLoginTimes.length-1].lastLoginTime;
             });
         },
+        handleHistory(){
+            this.historyVisible = true;
+        }
 
     }
 };

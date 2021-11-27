@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <!-- 折叠按钮 -->
-        <div class="collapse-btn" @click="collapseChage">
+        <div class="collapse-btn" @click="collapseChange">
             <i v-if="!collapse" class="el-icon-s-fold"></i>
             <i v-else class="el-icon-s-unfold"></i>
         </div>
@@ -13,19 +13,6 @@
                     <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
                         <i class="el-icon-rank"></i>
                     </el-tooltip>
-                </div>
-                <!-- 消息中心 -->
-                <div class="btn-bell">
-                    <el-tooltip
-                        effect="dark"
-                        :content="message?`有${message}条未读消息`:`消息中心`"
-                        placement="bottom"
-                    >
-                        <router-link to="/tabs">
-                            <i class="el-icon-bell"></i>
-                        </router-link>
-                    </el-tooltip>
-                    <span class="btn-bell-badge" v-if="message"></span>
                 </div>
                 <!-- 用户头像 -->
                 <div class="user-avator">
@@ -53,7 +40,6 @@ export default {
             collapse: false,
             fullscreen: false,
             name: '',
-            message: 2
         };
     },
     computed: {
@@ -73,12 +59,12 @@ export default {
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command === 'logout') {
-                localStorage.removeItem('ms_username');
+                localStorage.removeItem('sid');
                 this.$router.push('/login');
             }
         },
         // 侧边栏折叠
-        collapseChage() {
+        collapseChange() {
             this.collapse = !this.collapse;
             bus.$emit('collapse', this.collapse);
         },
@@ -111,8 +97,8 @@ export default {
         }
     },
     mounted() {
-        if (document.body.clientWidth < 1500) {
-            this.collapseChage();
+        if (document.body.clientWidth < 1400) {
+            this.collapseChange();
         }
     }
 };
@@ -152,7 +138,7 @@ export default {
     margin-right: 5px;
     font-size: 24px;
 }
-.btn-bell,
+
 .btn-fullscreen {
     position: relative;
     width: 30px;
@@ -160,19 +146,6 @@ export default {
     text-align: center;
     border-radius: 15px;
     cursor: pointer;
-}
-.btn-bell-badge {
-    position: absolute;
-    right: 0;
-    top: -2px;
-    width: 8px;
-    height: 8px;
-    border-radius: 4px;
-    background: #f56c6c;
-    color: #fff;
-}
-.btn-bell .el-icon-bell {
-    color: #fff;
 }
 .user-name {
     margin-left: 10px;

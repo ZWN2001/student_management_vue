@@ -55,11 +55,6 @@ export default new Router({
                     meta: { title: '选课管理' }
                 },
                 {
-                    path: '/tabs',
-                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/Tabs.vue'),
-                    meta: { title: '消息'}
-                },
-                {
                     path: '/stuCourseTable',
                     component: () => import(/* webpackChunkName: "tabs" */ '../components/page/Stu/stuCourseTable/CourseTable.vue'),
                     meta: { title: '我的课表'}
