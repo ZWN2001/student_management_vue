@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import {  get_selected_course } from '../../../api';
+import {  get_selected_course } from '@/api';
 export default {
     name: 'TeaCourseManage',
     data() {

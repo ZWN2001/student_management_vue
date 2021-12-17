@@ -102,7 +102,7 @@ export default {
     methods: {
         getData() {
             fetch_course(this.query).then(res => {
-                console.log(res);
+                console.log(res.data);
                 this.tableData = res.data.data;
                 this.pageTotal = res.data.pagetotal || 10;
                 this.tableData.forEach((item,index) =>{
